@@ -1,12 +1,17 @@
 <template>
-  <div>
-    <city-weather
-      v-for="(cityData, i) in citiesData"
-      :key="i"
-      v-bind="cityData"
-    >
-    </city-weather>
-  </div>
+  <v-main>
+    <v-container>
+      <v-row>
+        <v-col
+          v-for="(cityData, i) in citiesData"
+          :key="i"
+          cols="3"
+        >
+          <city-weather v-bind="cityData"></city-weather>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-main>
 </template>
 
 <script lang="ts">

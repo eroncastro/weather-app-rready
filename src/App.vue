@@ -1,18 +1,16 @@
 <template>
-  <div id="app">
-    <h1>Weather App</h1>
+  <v-app id="inspire">
+    <v-app-bar
+      app
+      shrink-on-scroll
+    >
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-    <hello-world></hello-world>
-
-    <p>
-      <router-link to="/foo">Go to foo</router-link>
-    </p>
-    <p>
-      <router-link to="/bar">Go to foo</router-link>
-    </p>
+      <v-toolbar-title>Weather App</v-toolbar-title>
+    </v-app-bar>
 
     <router-view></router-view>
-  </div>
+  </v-app>
 </template>
 
 <script lang="ts">

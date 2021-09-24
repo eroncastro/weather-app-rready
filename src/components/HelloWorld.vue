@@ -1,37 +1,32 @@
 <template>
-  <div class="hello">
-    <city-weather-list></city-weather-list>
-  </div>
+  <v-app id="inspire">
+    <v-app-bar
+      app
+      shrink-on-scroll
+    >
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Weather App</v-toolbar-title>
+    </v-app-bar>
+
+    <v-main>
+      <v-container>
+        <v-row>
+          <v-col
+            v-for="n in 24"
+            :key="n"
+            cols="4"
+          >
+            <v-card height="200"></v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import CityList from './CityList.vue';
-
-@Component({
-  components: {
-    cityWeatherList: CityList
+<script>
+  export default {
+    //
   }
-})
-export default class HelloWorld extends Vue {
-  @Prop() private msg!: string;
-}
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
