@@ -2,6 +2,8 @@
   <div id="app">
     <h1>Weather App</h1>
 
+    <hello-world></hello-world>
+
     <p>
       <router-link to="/foo">Go to foo</router-link>
     </p>
