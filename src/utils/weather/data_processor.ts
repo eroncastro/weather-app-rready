@@ -19,13 +19,14 @@ export default class WeatherDataProcessor {
         description
       }],
       wind: {
-        speed: windSpeed
+        speed: wind
       },
       name: city,
       sys: {
         sunrise,
         sunset,
       },
+      dt: currentTime,
       main: {
         temp: temperature,
         temp_min: minTemperature,
@@ -36,11 +37,12 @@ export default class WeatherDataProcessor {
     return {
       icon: this.iconUrl(icon),
       condition: description,
-      windSpeed,
       city,
+      temperature,
+      datetime: new Date(currentTime * 1000),
+      wind,
       sunrise: new Date(sunrise * 1000),
       sunset: new Date(sunset * 1000),
-      temperature,
       minTemperature,
       maxTemperature
     };

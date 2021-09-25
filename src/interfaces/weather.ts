@@ -6,13 +6,14 @@ export enum TemperatureScale {
 export interface Weather {
   city: string;
   temperature: number;
-  minTemperature: number;
-  maxTemperature: number;
   condition: string;
   icon: string;
+  datetime: Date;
+  minTemperature: number;
+  maxTemperature: number;
   sunrise: Date;
   sunset: Date;
-  windSpeed: number;
+  wind: number;
 }
 
 export interface Coordinates {
