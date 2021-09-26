@@ -25,6 +25,8 @@ import data3 from '../data/zurich.json';
 import WeatherDataProcessor from '../utils/weather/data_processor';
 import NewCityDialogVue from './NewCityDialog.vue';
 
+// https://github.com/vuejs/vue-class-component/issues/56 -> Vuex usage
+
 const rotterdamData = new WeatherDataProcessor(data1).getWeatherData();
 const uberlandiaData = new WeatherDataProcessor(data2).getWeatherData();
 const zurichData = new WeatherDataProcessor(data3).getWeatherData();
