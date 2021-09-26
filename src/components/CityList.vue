@@ -11,6 +11,8 @@
         </v-col>
       </v-row>
     </v-container>
+
+    <new-city-dialog></new-city-dialog>
   </v-main>
 </template>
 
@@ -21,6 +23,7 @@ import data1 from '../data/rotterdam.json';
 import data2 from '../data/uberlandia.json';
 import data3 from '../data/zurich.json';
 import WeatherDataProcessor from '../utils/weather/data_processor';
+import NewCityDialogVue from './NewCityDialog.vue';
 
 const rotterdamData = new WeatherDataProcessor(data1).getWeatherData();
 const uberlandiaData = new WeatherDataProcessor(data2).getWeatherData();
@@ -28,7 +31,8 @@ const zurichData = new WeatherDataProcessor(data3).getWeatherData();
 
 @Component({
   components: {
-    cityWeather: CityWeather
+    cityWeather: CityWeather,
+    newCityDialog: NewCityDialogVue,
   }
 })
 export default class CityList extends Vue {
@@ -36,6 +40,7 @@ export default class CityList extends Vue {
 
   data() {
     return {
+      showDialog: false,
       citiesData: [
         rotterdamData,
         uberlandiaData,
