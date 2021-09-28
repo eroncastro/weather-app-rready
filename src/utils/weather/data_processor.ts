@@ -1,14 +1,16 @@
-import type { Weather, WeatherApiJSON } from '../../interfaces/weather';
-
-const ICON_URL = {
-  prefix: 'https://openweathermap.org/img/wn/',
-  suffix: '@2x.png',
-}
+import type {
+  CityCurrentWeatherJSON,
+  Weather,
+} from '../../interfaces/clients/open_weather_map';
 
 export default class WeatherDataProcessor {
-  private data!: WeatherApiJSON;
+  static ICON_URL = {
+    prefix: 'https://openweathermap.org/img/wn/',
+    suffix: '@2x.png',
+  };
+  private data: CityCurrentWeatherJSON;
 
-  constructor(data: WeatherApiJSON) {
+  constructor(data: CityCurrentWeatherJSON) {
     this.data = data;
   }
 
@@ -25,6 +27,7 @@ export default class WeatherDataProcessor {
       sys: {
         sunrise,
         sunset,
+        country,
       },
       dt: currentTime,
       main: {
@@ -38,6 +41,7 @@ export default class WeatherDataProcessor {
       icon: this.iconUrl(icon),
       condition: description,
       city,
+      country,
       temperature,
       datetime: new Date(currentTime * 1000),
       wind,
@@ -49,6 +53,8 @@ export default class WeatherDataProcessor {
   }
 
   private iconUrl(iconCode: string): string {
-    return `${ICON_URL.prefix}${iconCode}${ICON_URL.suffix}`;
+    const { prefix, suffix } = WeatherDataProcessor.ICON_URL;
+
+    return `${prefix}${iconCode}${suffix}`;
   }
 }

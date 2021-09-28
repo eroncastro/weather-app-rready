@@ -51,7 +51,11 @@ export interface Sys {
   sunset: number;
 }
 
-export interface OpenWeatherApiJSON {
+export interface OpenWeatherMapApiResponse<T> extends Response {
+  jsonBody?: T;
+}
+
+export interface CityCurrentWeatherJSON {
   coord: Coordinates;
   weather: Array<Condition>;
   base: string;
@@ -67,4 +71,9 @@ export interface OpenWeatherApiJSON {
   id: number;
   name: string;
   cod: number;
+}
+
+export interface CurrentWeatherInput {
+  city: string;
+  country: string;
 }
