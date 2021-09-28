@@ -17,13 +17,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Prop, Vue } from 'vue-property-decorator';
+
 import CityWeather from './CityWeather.vue';
 import data1 from '../data/rotterdam.json';
 import data2 from '../data/uberlandia.json';
 import data3 from '../data/zurich.json';
-import WeatherDataProcessor from '../utils/weather/data_processor';
 import NewCityDialogVue from './NewCityDialog.vue';
+import OpenWeatherMapApiClient from '../clients/open_weather_map';
+import type { CurrentWeatherInput } from '../interfaces/clients/open_weather_map';
+import WeatherDataProcessor from '../utils/weather/data_processor';
 
 // https://github.com/vuejs/vue-class-component/issues/56 -> Vuex usage
 
@@ -39,6 +42,7 @@ const zurichData = new WeatherDataProcessor(data3).getWeatherData();
 })
 export default class CityList extends Vue {
   // @Prop(Array) readonly citiesWeather!: Array<CityWeather>;
+  @Prop({ required: true }) openWeatherMapApiClient!: OpenWeatherMapApiClient;
 
   data() {
     return {
@@ -47,7 +51,12 @@ export default class CityList extends Vue {
         rotterdamData,
         uberlandiaData,
         zurichData,
-      ]
+      ],
+      cities: [
+        { city: 'Rotterdam', country: 'NL' },
+        { city: 'Uberlândia', country: 'BR' },
+        { city: 'Zurich', country: 'CH' },
+      ],
     };
   }
 }
