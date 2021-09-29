@@ -24,9 +24,6 @@ import {
 } from 'vuex-class';
 
 import CityWeather from './CityWeather.vue';
-import data1 from '../data/rotterdam.json';
-import data2 from '../data/uberlandia.json';
-import data3 from '../data/zurich.json';
 import NewCityDialogVue from './NewCityDialog.vue';
 import OpenWeatherMapApiClient from '../clients/open_weather_map';
 import WeatherDataProcessor from '../utils/weather/data_processor';
@@ -40,10 +37,6 @@ import {
 } from '../store/weather';
 
 // https://github.com/vuejs/vue-class-component/issues/56 -> Vuex usage
-
-const rotterdamData = new WeatherDataProcessor(data1).getWeatherData();
-const uberlandiaData = new WeatherDataProcessor(data2).getWeatherData();
-const zurichData = new WeatherDataProcessor(data3).getWeatherData();
 
 @Component({
   components: {
@@ -65,12 +58,6 @@ export default class CityList extends Vue {
 
   data() {
     return {
-      showDialog: false,
-      citiesData: [
-        rotterdamData,
-        uberlandiaData,
-        zurichData,
-      ],
       cities: [
         { city: 'Rotterdam', country: 'NL' },
         { city: 'Uberlândia', country: 'BR' },
