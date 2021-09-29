@@ -1,15 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import weather from './weather';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    count: 0
+  modules: {
+    weather,
   },
-  mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
 });

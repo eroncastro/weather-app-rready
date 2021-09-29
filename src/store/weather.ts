@@ -1,22 +1,32 @@
-import type { CityWeatherData } from '../interfaces/city_weather'
+import type { CityWeatherData } from '../interfaces/city_weather';
+import type { CitiesWeatherState } from '../interfaces/store/weather';
 
-interface WeatherState {
-  cities: Array<CityWeatherData>;
-}
+export const GET_CITIES_WEATHER = 'weather/getCitiesWeather';
+export const ADD_CITY_WEATHER = 'weather/addCityWeather';
 
 export default {
   state: {
     cities: Array<CityWeatherData>()
   },
   getters: {
-    cities(state: WeatherState) {
+    [GET_CITIES_WEATHER](state: CitiesWeatherState) {
       return state.cities;
     }
   },
   mutations: {
-    addCityWeather(state: WeatherState, cityWeatherData: CityWeatherData) {
+    [ADD_CITY_WEATHER](
+      state: CitiesWeatherState,
+      cityWeatherData: CityWeatherData
+    ) {
       state.cities.push(cityWeatherData);
     }
   },
-
+  actions: {
+    [ADD_CITY_WEATHER](
+      context: any,
+      cityWeatherData: CityWeatherData
+    ) {
+      context.commit(ADD_CITY_WEATHER, cityWeatherData);
+    }
+  }
 }

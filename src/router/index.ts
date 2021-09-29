@@ -10,7 +10,10 @@ const Settings = { template: '<div>Settings</div>' };
 
 // https://router.vuejs.org/guide/essentials/passing-props.html
 // passing props to avoid coupling
-const openWeatherMapApiClient = new OpenWeatherMapApiClient(process.env.OPEN_WEATHER_MAP_KEY);
+const openWeatherMapApiClient =
+  new OpenWeatherMapApiClient(process.env.VUE_APP_OPEN_WEATHER_MAP_KEY);
+
+console.log(process.env.VUE_APP_OPEN_WEATHER_MAP_KEY);
 
 const routes = [
   {
