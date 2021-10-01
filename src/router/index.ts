@@ -13,8 +13,6 @@ const Settings = { template: '<div>Settings</div>' };
 const openWeatherMapApiClient =
   new OpenWeatherMapApiClient(process.env.VUE_APP_OPEN_WEATHER_MAP_KEY);
 
-console.log(process.env.VUE_APP_OPEN_WEATHER_MAP_KEY);
-
 const routes = [
   {
     path: '/',

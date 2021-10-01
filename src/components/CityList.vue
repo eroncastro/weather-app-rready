@@ -12,7 +12,9 @@
       </v-row>
     </v-container>
 
-    <new-city-dialog></new-city-dialog>
+    <new-city-dialog
+      @citiesAdded="addCities"
+    ></new-city-dialog>
   </v-main>
 </template>
 
@@ -56,18 +58,8 @@ export default class CityList extends Vue {
 
   cities!: Array<{city: string; country: string;}>;
 
-  data() {
-    return {
-      cities: [
-        { city: 'Rotterdam', country: 'NL' },
-        { city: 'Uberlândia', country: 'BR' },
-        { city: 'Zurich', country: 'CH' },
-      ],
-    };
-  }
-
-  created() {
-    this.cities.forEach(async (cityData: CurrentWeatherInput) => {
+  addCities(cities: Array<CurrentWeatherInput>) {
+    cities.forEach(async (cityData: CurrentWeatherInput) => {
       try {
         const { city, country } = cityData;
         const cityWeather = await this
