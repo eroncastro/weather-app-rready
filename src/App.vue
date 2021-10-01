@@ -2,12 +2,21 @@
   <v-app id="inspire">
     <v-app-bar
       app
-      shrink-on-scroll
+      color="blue darken-1"
     >
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Weather App</v-toolbar-title>
+      <v-toolbar-title color="white">Weather App</v-toolbar-title>
     </v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      temporary
+      color="white"
+    >
+      <!--  -->
+    </v-navigation-drawer>
 
     <router-view></router-view>
   </v-app>
@@ -17,17 +26,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class App extends Vue {}
+export default class App extends Vue {
+  data() {
+    return { drawer: null };
+  }
+}
 
 </script>
-
-<style lang="css">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
