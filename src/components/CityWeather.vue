@@ -37,6 +37,19 @@
     <div>
       {{ condition }}
     </div>
+
+    <v-btn
+      small
+      white
+      right
+      color="dark"
+      class="remove-card"
+      @click="handleClick"
+    >
+      <v-icon>
+        mdi-delete
+      </v-icon>
+    </v-btn>
   </v-card>
 </template>
 
@@ -50,6 +63,7 @@ export default class CityWeather extends Vue {
 
   // Mandatory Props
   @Prop({ type: String, required: true }) city!: string;
+  @Prop({ type: String, required: true }) country!: string;
   @Prop({ type: Number, required: true }) temperature!: number;
   @Prop({ type: String, required: true }) condition!: string;
   @Prop({ type: String, required: true }) icon!: string;
@@ -94,12 +108,20 @@ export default class CityWeather extends Vue {
         minute:'2-digit'
       });
   }
+
+  handleClick() {
+    this.$emit('removeCard', {
+      city: this.city,
+      country: this.country,
+    });
+  }
 }
 </script>
 
 <style scoped>
   .weather-card {
     display: flex;
+    position: relative;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -128,5 +150,11 @@ export default class CityWeather extends Vue {
     position: absolute;
     top: 40px;
     right: 7px;
+  }
+
+  .remove-card {
+    position: absolute;
+    top: 2px;
+    right: 2px;
   }
 </style>

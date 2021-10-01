@@ -7,7 +7,10 @@
           :key="i"
           cols="3"
         >
-          <city-weather v-bind="cityData"></city-weather>
+          <city-weather
+            v-bind="cityData"
+            @removeCard="() => handleRemoveCard(cityData)"
+          ></city-weather>
         </v-col>
       </v-row>
     </v-container>
@@ -34,8 +37,9 @@ import type {
   CityCurrentWeatherJSON,
 } from '../interfaces/clients/open_weather_map';
 import {
+  ADD_CITY_WEATHER,
   GET_CITIES_WEATHER,
-  ADD_CITY_WEATHER
+  REMOVE_CITY_WEATHER,
 } from '../store/weather';
 
 // https://github.com/vuejs/vue-class-component/issues/56 -> Vuex usage
@@ -56,6 +60,9 @@ export default class CityList extends Vue {
   // @ts-ignore
   @Action(ADD_CITY_WEATHER) addCityWeather;
 
+  // @ts-ignore
+  @Action(REMOVE_CITY_WEATHER) removeCityWeather;
+
   cities!: Array<{city: string; country: string;}>;
 
   addCities(cities: Array<CurrentWeatherInput>) {
@@ -75,6 +82,10 @@ export default class CityList extends Vue {
         console.log(e);
       }
     });
+  }
+
+  handleRemoveCard(card: CityCurrentWeatherJSON) {
+    this.removeCityWeather(card);
   }
 }
 </script>

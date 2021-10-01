@@ -3,6 +3,7 @@ import type { CitiesWeatherState } from '../interfaces/store/weather';
 
 export const GET_CITIES_WEATHER = 'weather/getCitiesWeather';
 export const ADD_CITY_WEATHER = 'weather/addCityWeather';
+export const REMOVE_CITY_WEATHER = 'weather/removeCityWeather';
 
 export default {
   state: {
@@ -19,6 +20,17 @@ export default {
       cityWeatherData: CityWeatherData
     ) {
       state.cities.push(cityWeatherData);
+    },
+    [REMOVE_CITY_WEATHER](
+      state: CitiesWeatherState,
+      cityWeatherData: CityWeatherData,
+    ) {
+      state.cities = state.cities.filter(({ city, country }) => {
+        return (
+          city !== cityWeatherData.city &&
+          country !== cityWeatherData.country
+        );
+      });
     }
   },
   actions: {
@@ -27,6 +39,12 @@ export default {
       cityWeatherData: CityWeatherData
     ) {
       context.commit(ADD_CITY_WEATHER, cityWeatherData);
+    },
+    [REMOVE_CITY_WEATHER](
+      context: any,
+      cityWeatherData: CityWeatherData
+    ) {
+      context.commit(REMOVE_CITY_WEATHER, cityWeatherData);
     }
   }
 }
