@@ -1,18 +1,18 @@
 <template>
   <v-main>
     <v-container>
-      <v-row>
-        <v-col
-          v-for="(cityData, i) in citiesWeather"
-          :key="i"
-          cols="4"
-        >
-          <city-weather
-            v-bind="cityData"
-            @removeCard="() => handleRemoveCard(cityData)"
-          ></city-weather>
-        </v-col>
-      </v-row>
+        <draggable v-model="citiesWeather" class="row">
+          <v-col
+            v-for="(cityData, i) in citiesWeather"
+            :key="i"
+            cols="4"
+          >
+            <city-weather
+              v-bind="cityData"
+              @removeCard="() => handleRemoveCard(cityData)"
+            ></city-weather>
+          </v-col>
+        </draggable>
     </v-container>
 
     <new-city-dialog
@@ -27,6 +27,7 @@ import {
   Getter,
   Action,
 } from 'vuex-class';
+import draggable from 'vuedraggable'
 
 import CityWeather from './CityWeather.vue';
 import NewCityDialogVue from './NewCityDialog.vue';
@@ -35,38 +36,35 @@ import WeatherDataProcessor from '../utils/weather/data_processor';
 import type {
   CurrentWeatherInput,
   CityCurrentWeatherJSON,
+  Weather,
 } from '../interfaces/clients/open_weather_map';
 import {
   ADD_CITY_WEATHER,
   GET_CITIES_WEATHER,
   REMOVE_CITY_WEATHER,
 } from '../store/weather';
-
-// https://github.com/vuejs/vue-class-component/issues/56 -> Vuex usage
+import { AddCityWeather, RemoveCityWeather } from '@/interfaces/store/weather';
 
 @Component({
   components: {
     cityWeather: CityWeather,
     newCityDialog: NewCityDialogVue,
+    draggable,
   }
 })
 export default class CityList extends Vue {
-  // @Prop(Array) readonly citiesWeather!: Array<CityWeather>;
   @Prop({ required: true }) openWeatherMapApiClient!: OpenWeatherMapApiClient;
 
-  // @ts-ignore
-  @Getter(GET_CITIES_WEATHER) citiesWeather;
+  @Getter(GET_CITIES_WEATHER) citiesWeather!: Array<Weather>;
 
-  // @ts-ignore
-  @Action(ADD_CITY_WEATHER) addCityWeather;
+  @Action(ADD_CITY_WEATHER) addCityWeather!: AddCityWeather;
 
-  // @ts-ignore
-  @Action(REMOVE_CITY_WEATHER) removeCityWeather;
+  @Action(REMOVE_CITY_WEATHER) removeCityWeather!: RemoveCityWeather;
 
   cities!: Array<{city: string; country: string;}>;
 
-  addCities(cities: Array<CurrentWeatherInput>) {
-    cities.forEach(async (cityData: CurrentWeatherInput) => {
+  addCities(newCities: Array<CurrentWeatherInput>) {
+    newCities.forEach(async (cityData: CurrentWeatherInput) => {
       try {
         const { city, country } = cityData;
         const cityWeather = await this
@@ -84,7 +82,7 @@ export default class CityList extends Vue {
     });
   }
 
-  handleRemoveCard(card: CityCurrentWeatherJSON) {
+  handleRemoveCard(card: Weather) {
     this.removeCityWeather(card);
   }
 }
