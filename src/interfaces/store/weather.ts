@@ -1,5 +1,4 @@
 import { CityWeatherData } from '../../interfaces/city_weather';
-import { Weather } from '../clients/open_weather_map';
 
 export interface CitiesWeatherState {
   cities: Array<CityWeatherData>;
@@ -14,9 +13,9 @@ export interface UpdateCityWeather {
 }
 
 export interface RemoveCityWeather {
-  (weather: Weather): void
+  (weather: CityWeatherData): void
 }
 
 export interface UpdateCityWeatherListOrder {
-  (newCityWeatherList: Array<Weather>): void
+  (newCityWeatherList: Array<CityWeatherData>): void
 }

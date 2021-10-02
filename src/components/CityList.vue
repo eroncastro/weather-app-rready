@@ -106,7 +106,7 @@ export default class CityList extends Vue {
     });
   }
 
-  handleRemoveCard(card: Weather) {
+  handleRemoveCard(card: CityWeatherData) {
     this.removeCityWeather(card);
   }
 
@@ -117,7 +117,7 @@ export default class CityList extends Vue {
 //   weather?: Weather;
 // }
 
-  handleOrderChange(newCityWeatherList: Array<Weather>) {
+  handleOrderChange(newCityWeatherList: Array<CityWeatherData>) {
     this.updateCityWeatherListOrder(newCityWeatherList);
   }
 }
