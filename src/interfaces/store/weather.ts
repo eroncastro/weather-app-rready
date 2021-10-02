@@ -6,9 +6,17 @@ export interface CitiesWeatherState {
 }
 
 export interface AddCityWeather {
-  (weather: Weather): void
+  (weather: CityWeatherData): Promise<CityWeatherData>
+}
+
+export interface UpdateCityWeather {
+  (weather: CityWeatherData): CityWeatherData
 }
 
 export interface RemoveCityWeather {
   (weather: Weather): void
+}
+
+export interface UpdateCityWeatherListOrder {
+  (newCityWeatherList: Array<Weather>): void
 }

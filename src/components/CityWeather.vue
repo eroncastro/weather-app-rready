@@ -3,11 +3,12 @@
     class="mx-auto weather-card"
     max-width="400"
     outlined
+    :loading="loading"
   >
     <v-list-item two-line>
       <v-list-item-content>
         <v-list-item-title class="text-h5 mb-1">
-          {{ city }}
+          {{ city }}, {{ country.toUpperCase() }}
         </v-list-item-title>
         <v-list-item-subtitle>
           {{ currentTime }}
@@ -64,9 +65,9 @@ export default class CityWeather extends Vue {
   // Mandatory Props
   @Prop({ type: String, required: true }) city!: string;
   @Prop({ type: String, required: true }) country!: string;
-  @Prop({ type: Number, required: true }) temperature!: number;
-  @Prop({ type: String, required: true }) condition!: string;
-  @Prop({ type: String, required: true }) icon!: string;
+  @Prop(Number) temperature?: number;
+  @Prop(String) condition?: string;
+  @Prop(String) icon?: string;
   @Prop({
     default: TemperatureScale.Celsius,
     validator: (value) => {
@@ -84,8 +85,11 @@ export default class CityWeather extends Vue {
   @Prop(Date) sunrise?: Date;
   @Prop(Date) sunset?: Date;
   @Prop(Number) windSpeed?: number;
+  @Prop({ type: Boolean, default: false }) loading?: boolean;
 
   get convertedTemperature(): number {
+    if (!this.temperature) return 0;
+
     return this.temperatureScale === TemperatureScale.Celsius
       ? this.temperature - 273.15
       : ((this.temperature - 273.15) * 9/5) + 32;
