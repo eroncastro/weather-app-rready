@@ -31,11 +31,8 @@ export default {
       state: CitiesWeatherState,
       cityWeatherData: CityWeatherData,
     ) {
-      state.cities = state.cities.filter(({ city, country }) => {
-        return (
-          city !== cityWeatherData.city &&
-          country !== cityWeatherData.country
-        );
+      state.cities = state.cities.filter(({ id }) => {
+        return id !== cityWeatherData.id;
       });
     },
     [UPDATE_CITY_WEATHER](
