@@ -5,7 +5,7 @@
         <v-col
           v-for="(cityData, i) in citiesWeather"
           :key="i"
-          cols="3"
+          cols="4"
         >
           <city-weather
             v-bind="cityData"
