@@ -89,52 +89,55 @@
   </v-row>
 </template>
 
-<script>
-  const ITEMS = [
-    { city: 'Uberlândia', country: 'BR' },
-    { city: 'Zurich', country: 'CH' },
-    { city: 'Rotterdam', country: 'NL' },
-  ];
+<script lang="ts">
+import { CurrentWeatherInput } from '@/interfaces/clients/open_weather_map';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
-  export default {
-    data: () => ({
-      dialog: false,
-      isLoading: false,
-      timer: null,
-      items: [],
-      search: null,
-      selected: []
-    }),
-    watch: {
-      async search () {
-        // Items have already been loaded
-        if (this.items.length > 0) return
+const ITEMS = [
+  { city: 'Uberlândia', country: 'BR' },
+  { city: 'Zurich', country: 'CH' },
+  { city: 'Rotterdam', country: 'NL' },
+];
 
-        this.isLoading = true;
-        const self = this;
+@Component
+export default class NewCityDialog extends Vue {
+  dialog = false;
+  isLoading = false;
+  timer = null;
+  items = Array<CurrentWeatherInput>();
+  search = '';
+  selected = [];
 
-        // simulate a request now.
-        await new Promise(resolve => {
-          setTimeout(() => {
-            self.items = ITEMS;
-            self.isLoading = false;
-            resolve(true);
-          }, 1000);
-        })
-      },
-    },
-    methods: {
-      handleSave() {
-        if (this.selected.length) {
-          this.$emit('citiesAdded', this.selected);
-        }
-
-        this.hideDialog();
-      },
-      hideDialog() {
-        this.selected = [];
-        this.dialog = false;
-      },
+  handleSave() {
+    if (this.selected.length) {
+      this.$emit('citiesAdded', this.selected);
     }
+
+    this.hideDialog();
   }
+
+  @Watch('search')
+  async onSearchChange () {
+    // Items have already been loaded
+    if (this.items.length > 0) return;
+
+    this.isLoading = true;
+    const self = this;
+
+    // simulate a request now.
+    await new Promise(resolve => {
+      setTimeout(() => {
+        self.items = ITEMS;
+        self.isLoading = false;
+        resolve(true);
+      }, 1000);
+    })
+  }
+
+  hideDialog() {
+    this.selected = [];
+    this.dialog = false;
+  }
+}
+
 </script>
