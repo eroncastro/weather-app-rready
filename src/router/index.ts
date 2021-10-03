@@ -4,7 +4,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import CityList from '../components/CityList.vue';
-import Settings from '../components/Settings.vue';
+import Settings from '../components/WeatherSettings.vue';
 
 Vue.use(VueRouter);
 

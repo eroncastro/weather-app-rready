@@ -1,5 +1,4 @@
 import { v4 as uuidv4 } from 'uuid';
-import store from '.';
 
 import type { CityWeatherData } from '../interfaces/city_weather';
 import type { CitiesWeatherState } from '../interfaces/store/weather';
