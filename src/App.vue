@@ -35,19 +35,24 @@
         dense
         nav
       >
-        <v-list-item
+        <router-link
           v-for="item in drawerItems"
           :key="item.title"
-          link
+          :to="item.route"
+          style="text-decoration: none;"
         >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
+          <v-list-item
+            link
+          >
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
 
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
       </v-list>
     </v-navigation-drawer>
 
@@ -65,11 +70,13 @@ export default class App extends Vue {
   drawerItems = [
     {
       title: 'Home',
-      icon: 'mdi-view-dashboard'
+      icon: 'mdi-view-dashboard',
+      route: '/',
     },
     {
       title: 'Settings',
-      icon: 'mdi-application-settings'
+      icon: 'mdi-application-settings',
+      route: '/settings'
     },
   ];
 
