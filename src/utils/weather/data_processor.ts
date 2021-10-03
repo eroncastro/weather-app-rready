@@ -25,6 +25,7 @@ export default class WeatherDataProcessor {
         country,
       },
       dt: currentTime,
+      timezone,
       main: {
         temp: temperature,
         temp_min: minTemperature,
@@ -41,6 +42,7 @@ export default class WeatherDataProcessor {
       country,
       temperature,
       datetime: new Date(currentTime * 1000),
+      timezone: 1000 * timezone,
       wind,
       sunrise: new Date(sunrise * 1000),
       sunset: new Date(sunset * 1000),

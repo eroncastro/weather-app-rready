@@ -11,6 +11,7 @@
           cols="4"
         >
           <city-weather
+            :datetime="currentTime"
             :loading="cityData.loading"
             :city="cityData.city"
             :country="cityData.country"
@@ -80,7 +81,9 @@ export default class CityList extends Vue {
   @Action(UPDATE_CITY_WEATHER_LIST_ORDER)
   updateCityWeatherListOrder!: UpdateCityWeatherListOrder;
 
-  cities!: Array<{city: string; country: string;}>;
+  cities = Array<CurrentWeatherInput>();
+  timer!: number;
+  currentTime = new Date();
 
   async addCities(newCities: Array<CurrentWeatherInput>) {
     const addedCities = await Promise.all(
@@ -120,6 +123,17 @@ export default class CityList extends Vue {
 
   handleOrderChange(newCityWeatherList: Array<CityWeatherData>) {
     this.updateCityWeatherListOrder(newCityWeatherList);
+  }
+
+  mounted() {
+    const self = this;
+    self.timer = setInterval(() => {
+      self.currentTime = new Date();
+    }, 2000);
+  }
+
+  destroyed() {
+    clearInterval(this.timer);
   }
 }
 </script>

@@ -10,6 +10,7 @@ export interface Weather {
   condition: string;
   icon: string;
   datetime: Date;
+  timezone: number;
   minTemperature: number;
   maxTemperature: number;
   sunrise: Date;

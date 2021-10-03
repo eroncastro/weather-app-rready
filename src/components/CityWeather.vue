@@ -80,6 +80,7 @@ export default class CityWeather extends Vue {
 
   // Optional Props
   @Prop(Date) datetime?: Date;
+  @Prop(Number) timezone?: number;
   @Prop(Number) minTemperature?: number;
   @Prop(Number) maxTemperature?: number;
   @Prop(Date) sunrise?: Date;
@@ -102,11 +103,19 @@ export default class CityWeather extends Vue {
   }
 
   get currentTime(): string {
-    if (!this.datetime) {
+    // eslint-disable-next-line no-debugger
+    if (!this.datetime || !this.timezone) {
       return '';
     }
 
-    return this.datetime
+    const utc = new Date(
+      this.datetime.getTime() +
+      this.datetime.getTimezoneOffset() * 60000
+    );
+
+    const currentDatetime = new Date(utc.getTime() + this.timezone);
+
+    return currentDatetime
       .toLocaleTimeString('en', {
         hour: '2-digit',
         minute:'2-digit'
