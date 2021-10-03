@@ -11,7 +11,8 @@
           fab
           v-bind="attrs"
           v-on="on"
-          style="bottom: 16px; right: 16px;">
+          class="new-city-weather"
+        >
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </template>
@@ -19,6 +20,23 @@
         <v-card-title>
           <span class="text-h5">New cities</span>
         </v-card-title>
+
+        <v-card-text>
+          <v-chip-group
+            active-class="primary--text"
+            column
+          >
+            <v-chip
+              close
+              @click:close="removeItem(item)"
+              v-for="(item, i) in selected"
+              :key="i"
+            >
+              {{ item.label }}
+            </v-chip>
+          </v-chip-group>
+        </v-card-text>
+
         <v-card-text>
           <v-container>
             <v-row>
@@ -28,15 +46,19 @@
                   :items="items"
                   :loading="isLoading"
                   :search-input.sync="search"
-                  :value="selected"
-                  chips
-                  clearable
+                  :value="search"
+                  item-text="label"
+                  item-value="label"
+                  filled
                   hide-details
                   hide-selected
                   label="Search for a city..."
                   return-object
                   no-filter
-                  multiple>
+                  multiple
+                  @change="search=''"
+                  @blur="handleLoseFocus"
+                >
                   <template v-slot:no-data>
                     <v-list-item>
                       <v-list-item-title>
@@ -45,17 +67,7 @@
                       </v-list-item-title>
                     </v-list-item>
                   </template>
-                  <template v-slot:selection="{ attr, on, item, selected }">
-                    <v-chip
-                      v-bind="attr"
-                      :input-value="selected"
-                      color="blue-grey"
-                      class="white--text"
-                      v-on="on"
-                      @click:close="removeItem(item)"
-                      close>
-                      <span v-text="item.label"></span>
-                    </v-chip>
+                  <template v-slot:selection="">
                   </template>
                   <template v-slot:item="{ item }">
                     <v-list-item-content>
@@ -111,16 +123,16 @@ export default class NewCityDialog extends Vue {
 
   @Watch('search')
   async onSearchChange(text: string) {
-    if (!text) return;
-
     const self = this;
 
+    if (!text) {
+      return;
+    }
     if (self.timer) {
       clearTimeout(self.timer);
     }
 
     self.timer = setTimeout(async () => {
-      console.log(text);
       self.isLoading = true;
       const items = await self.fetchSearchData(text);
 
@@ -129,16 +141,6 @@ export default class NewCityDialog extends Vue {
         self.isLoading = false;
       });
     }, NewCityDialog.TIMEOUT);
-  }
-
-  @Watch('selected')
-  onSelect(val: any) {
-    console.log('selected', val);
-  }
-
-  @Watch('search')
-  onSearch(val: any) {
-    console.log('search', val);
   }
 
   async fetchSearchData(text: string) {
@@ -166,14 +168,28 @@ export default class NewCityDialog extends Vue {
     this.hideDialog();
   }
 
+  handleLoseFocus() {
+    this.items = Array<Properties>();
+  }
+
   removeItem(item: any) {
     this.selected = this.selected.filter(el => el !== item);
   }
 
   hideDialog() {
-    this.selected = [];
+    this.selected = Array<Properties>();
+    this.items = Array<Properties>();
+    this.search = '';
     this.dialog = false;
   }
 }
 
 </script>
+
+<style scoped>
+  .new-city-weather {
+    position: fixed;
+    bottom: 16px !important;
+    right: 16px !important;
+  }
+</style>

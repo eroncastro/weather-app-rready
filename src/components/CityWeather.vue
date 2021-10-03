@@ -129,6 +129,7 @@ export default class CityWeather extends Vue {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 200px;
   }
 
   .temperature-indicator {
