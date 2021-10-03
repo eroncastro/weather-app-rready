@@ -12,16 +12,18 @@ export default class AutocompleteDataProcessor {
         properties: {
           country,
           country_code,
-          localadmin,
-          label
+          locality,
+          label,
+          name,
         }
       } = item;
 
       return {
         country,
         country_code,
-        localadmin,
+        locality,
         label,
+        name,
       };
     });
   }

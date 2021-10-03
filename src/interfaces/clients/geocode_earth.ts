@@ -5,8 +5,9 @@ export interface GeocodeEarthApiResponse<T> extends Response {
 export interface Properties {
   country: string;
   country_code: string;
-  localadmin: string;
+  locality: string | undefined;
   label: string;
+  name: string;
 }
 
 export interface Feature {

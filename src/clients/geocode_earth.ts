@@ -12,7 +12,7 @@ export default class GeocodeEarthApiClient {
     this.apiKey = apiKey;
   }
 
-  async fetchCurrentWeather(
+  async fetchAutocompleteSearch(
     input: string
   ): Promise<GeocodeEarthApiResponse<AutocompleteJSON>> {
     const url = new URL(GeocodeEarthApiClient.BASE_URL)

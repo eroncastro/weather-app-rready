@@ -22,6 +22,7 @@
     </v-container>
 
     <new-city-dialog
+      :geocodeEarthApiClient="geocodeEarthApiClient"
       @citiesAdded="addCities"
     ></new-city-dialog>
   </v-main>
@@ -58,6 +59,7 @@ import {
   UpdateCityWeatherListOrder
 } from '@/interfaces/store/weather';
 import { CityWeatherData } from '@/interfaces/city_weather';
+import type GeocodeEarthApiClient from '@/clients/geocode_earth';
 
 @Component({
   components: {
@@ -68,6 +70,7 @@ import { CityWeatherData } from '@/interfaces/city_weather';
 })
 export default class CityList extends Vue {
   @Prop({ required: true }) openWeatherMapApiClient!: OpenWeatherMapApiClient;
+  @Prop({ required: true }) geocodeEarthApiClient!: GeocodeEarthApiClient;
 
   @Getter(GET_CITIES_WEATHER) citiesWeather!: Array<Weather>;
 
@@ -100,9 +103,9 @@ export default class CityList extends Vue {
           .openWeatherMapApiClient
           .fetchCurrentWeather({ city, country });
 
-        const weather = new WeatherDataProcessor(
+        const weather = WeatherDataProcessor.getWeatherData(
           weatherData.jsonBody as CityCurrentWeatherJSON
-        ).getWeatherData();
+        );
 
         this.updateCityWeather({...cityData, weather, loading: false });
       } catch(e) {

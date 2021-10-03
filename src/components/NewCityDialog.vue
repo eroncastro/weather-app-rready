@@ -33,10 +33,9 @@
                   clearable
                   hide-details
                   hide-selected
-                  item-text="city"
-                  item-value="city"
                   label="Search for a city..."
                   return-object
+                  no-filter
                   multiple>
                   <template v-slot:no-data>
                     <v-list-item>
@@ -53,15 +52,14 @@
                       color="blue-grey"
                       class="white--text"
                       v-on="on"
-                      @click:close="remove(data.item)"
+                      @click:close="removeItem(item)"
                       close>
-                      <span v-text="item.city"></span>
+                      <span v-text="item.label"></span>
                     </v-chip>
                   </template>
                   <template v-slot:item="{ item }">
                     <v-list-item-content>
-                      <v-list-item-title v-text="item.city"></v-list-item-title>
-                      <v-list-item-subtitle v-text="item.symbol"></v-list-item-subtitle>
+                      <v-list-item-title v-text="item.label"></v-list-item-title>
                     </v-list-item-content>
                   </template>
                 </v-autocomplete>
@@ -71,9 +69,10 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="() => {
-            hideDialog();
-          }">
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="() => hideDialog()">
             Close
           </v-btn>
           <v-btn
@@ -90,48 +89,85 @@
 </template>
 
 <script lang="ts">
-import { CurrentWeatherInput } from '@/interfaces/clients/open_weather_map';
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 
-const ITEMS = [
-  { city: 'Uberlândia', country: 'BR' },
-  { city: 'Zurich', country: 'CH' },
-  { city: 'Rotterdam', country: 'NL' },
-];
+import type GeocodeEarthApiClient from '@/clients/geocode_earth';
+import AutocompleteDataProcessor from '@/utils/autocomplete/data_processor';
+import { AutocompleteJSON, Properties } from '@/interfaces/clients/geocode_earth';
+import { CurrentWeatherInput } from '@/interfaces/clients/open_weather_map';
 
 @Component
 export default class NewCityDialog extends Vue {
+  static TIMEOUT = 800;
+
   dialog = false;
   isLoading = false;
-  timer = null;
-  items = Array<CurrentWeatherInput>();
+  timer!: number;
+  items = Array<Properties>();
   search = '';
-  selected = [];
+  selected = Array<Properties>();
+
+  @Prop({ required: true }) geocodeEarthApiClient!: GeocodeEarthApiClient;
+
+  @Watch('search')
+  async onSearchChange(text: string) {
+    if (!text) return;
+
+    const self = this;
+
+    if (self.timer) {
+      clearTimeout(self.timer);
+    }
+
+    self.timer = setTimeout(async () => {
+      console.log(text);
+      self.isLoading = true;
+      const items = await self.fetchSearchData(text);
+
+      self.$nextTick(() => {
+        self.items = items.filter(item => typeof item.locality === 'string');
+        self.isLoading = false;
+      });
+    }, NewCityDialog.TIMEOUT);
+  }
+
+  @Watch('selected')
+  onSelect(val: any) {
+    console.log('selected', val);
+  }
+
+  @Watch('search')
+  onSearch(val: any) {
+    console.log('search', val);
+  }
+
+  async fetchSearchData(text: string) {
+    const rawData =
+      await this.geocodeEarthApiClient.fetchAutocompleteSearch(text);
+
+    return AutocompleteDataProcessor
+      .getCitiesData(rawData.jsonBody as AutocompleteJSON);
+  }
 
   handleSave() {
     if (this.selected.length) {
-      this.$emit('citiesAdded', this.selected);
+      const data: Array<CurrentWeatherInput> = this.selected.map(item => {
+        const {
+          country_code: country,
+          locality: city = '',
+        } = item;
+
+        return { country, city };
+      })
+
+      this.$emit('citiesAdded', data);
     }
 
     this.hideDialog();
   }
 
-  @Watch('search')
-  async onSearchChange () {
-    // Items have already been loaded
-    if (this.items.length > 0) return;
-
-    this.isLoading = true;
-    const self = this;
-
-    // simulate a request now.
-    await new Promise(resolve => {
-      setTimeout(() => {
-        self.items = ITEMS;
-        self.isLoading = false;
-        resolve(true);
-      }, 1000);
-    })
+  removeItem(item: any) {
+    this.selected = this.selected.filter(el => el !== item);
   }
 
   hideDialog() {
