@@ -9,14 +9,7 @@ export interface Settings {
   wind: boolean;
 }
 
-export interface SettingsPayload {
-  scale?: TemperatureScale;
-  minTemperature?: number;
-  maxTemperature?: number;
-  sunrise?: Date;
-  sunset?: Date;
-  wind?: number;
-}
+export type SettingsPayload = TemperatureScale | boolean;
 
 export interface UpdateSettings {
   (payload: SettingsPayload): Promise<Settings>

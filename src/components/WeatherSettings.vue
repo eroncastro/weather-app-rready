@@ -144,12 +144,15 @@ import {
 
 @Component
 export default class Settings extends Vue {
+
   @Getter(GET_TEMPERATURE_SCALE) scale!: TemperatureScale;
   @Getter(GET_MIN_TEMPERATURE) minTemperature!: boolean;
   @Getter(GET_MAX_TEMPERATURE) maxTemperature!: boolean;
   @Getter(GET_WIND) wind!: boolean;
   @Getter(GET_SUNRISE) sunrise!: boolean;
   @Getter(GET_SUNSET) sunset!: boolean;
+
+
 
   mounted() {
     console.log(this.scale);
