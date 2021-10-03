@@ -100,6 +100,7 @@
     data: () => ({
       dialog: false,
       isLoading: false,
+      timer: null,
       items: [],
       search: null,
       selected: []

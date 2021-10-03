@@ -110,13 +110,6 @@ export default class CityList extends Vue {
     this.removeCityWeather(card);
   }
 
-//   export interface CityWeatherData {
-//   loading: boolean;
-//   city: string;
-//   country: string;
-//   weather?: Weather;
-// }
-
   handleOrderChange(newCityWeatherList: Array<CityWeatherData>) {
     this.updateCityWeatherListOrder(newCityWeatherList);
   }
