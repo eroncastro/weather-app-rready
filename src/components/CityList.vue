@@ -33,7 +33,7 @@ import {
   Getter,
   Action,
 } from 'vuex-class';
-import draggable from 'vuedraggable'
+import draggable from 'vuedraggable';
 
 import CityWeather from './CityWeather.vue';
 import NewCityDialogVue from './NewCityDialog.vue';
@@ -51,7 +51,12 @@ import {
   UPDATE_CITY_WEATHER,
   UPDATE_CITY_WEATHER_LIST_ORDER,
 } from '../store/weather';
-import { AddCityWeather, RemoveCityWeather, UpdateCityWeather, UpdateCityWeatherListOrder } from '@/interfaces/store/weather';
+import {
+  AddCityWeather,
+  RemoveCityWeather,
+  UpdateCityWeather,
+  UpdateCityWeatherListOrder
+} from '@/interfaces/store/weather';
 import { CityWeatherData } from '@/interfaces/city_weather';
 
 @Component({
