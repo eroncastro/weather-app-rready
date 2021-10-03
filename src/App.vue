@@ -4,18 +4,51 @@
       app
       color="blue darken-1"
     >
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        @click="showDrawer = !showDrawer"
+        class="white--text"
+      >
+      </v-app-bar-nav-icon>
 
-      <v-toolbar-title color="white">Weather App</v-toolbar-title>
+      <v-toolbar-title class="white--text">Weather App</v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer
-      v-model="drawer"
+      v-model="showDrawer"
       fixed
       temporary
-      color="white"
     >
-      <!--  -->
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title class="text-h6">
+            Weather App
+          </v-list-item-title>
+          <v-list-item-subtitle>
+            Routes
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list
+        dense
+        nav
+      >
+        <v-list-item
+          v-for="item in drawerItems"
+          :key="item.title"
+          link
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
     </v-navigation-drawer>
 
     <router-view></router-view>
@@ -27,9 +60,23 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component
 export default class App extends Vue {
-  data() {
-    return { drawer: null };
-  }
+
+  showDrawer = false;
+  drawerItems = [
+    {
+      title: 'Home',
+      icon: 'mdi-view-dashboard'
+    },
+    {
+      title: 'Settings',
+      icon: 'mdi-application-settings'
+    },
+  ];
+
 }
 
 </script>
+
+<style>
+
+</style>
