@@ -8,13 +8,8 @@ export default class WeatherDataProcessor {
     prefix: 'https://openweathermap.org/img/wn/',
     suffix: '@2x.png',
   };
-  private data: CityCurrentWeatherJSON;
 
-  constructor(data: CityCurrentWeatherJSON) {
-    this.data = data;
-  }
-
-  getWeatherData(): Weather {
+  static getWeatherData(data: CityCurrentWeatherJSON): Weather {
     const {
       weather: [{
         icon,
@@ -35,10 +30,12 @@ export default class WeatherDataProcessor {
         temp_min: minTemperature,
         temp_max: maxTemperature,
       }
-    } = this.data;
+    } = data;
+    const { prefix, suffix } = WeatherDataProcessor.ICON_URL;
+    const iconUrl = `${prefix}${icon}${suffix}`;
 
     return {
-      icon: this.iconUrl(icon),
+      icon: iconUrl,
       condition: description,
       city,
       country,
@@ -52,9 +49,4 @@ export default class WeatherDataProcessor {
     };
   }
 
-  private iconUrl(iconCode: string): string {
-    const { prefix, suffix } = WeatherDataProcessor.ICON_URL;
-
-    return `${prefix}${iconCode}${suffix}`;
-  }
 }

@@ -6,14 +6,8 @@ import type {
 
 export default class AutocompleteDataProcessor {
 
-  private data: AutocompleteJSON;
-
-  constructor(data: AutocompleteJSON) {
-    this.data = data;
-  }
-
-  getCitiesData(): Array<Properties> {
-    return this.data.features.map((item: Feature) => {
+  static getCitiesData(data: AutocompleteJSON): Array<Properties> {
+    return data.features.map((item: Feature) => {
       const {
         properties: {
           country,
