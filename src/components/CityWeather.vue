@@ -97,13 +97,10 @@ export default class CityWeather extends Vue {
   }
 
   get temperatureScaleText(): string {
-    return this.temperatureScale === TemperatureScale.Celsius
-      ? 'C'
-      : 'F';
+    return this.temperatureScale === TemperatureScale.Celsius ? 'C' : 'F';
   }
 
   get currentTime(): string {
-    // eslint-disable-next-line no-debugger
     if (!this.datetime || !this.timezone) {
       return '';
     }

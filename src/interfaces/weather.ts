@@ -1,6 +1,6 @@
 export enum TemperatureScale {
-  Farenheit,
   Celsius,
+  Farenheit,
 }
 
 export interface Weather {

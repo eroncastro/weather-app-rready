@@ -15,6 +15,7 @@
             :loading="cityData.loading"
             :city="cityData.city"
             :country="cityData.country"
+            :temperatureScale="temperatureScale"
             v-bind="cityData.weather"
             @removeCard="() => handleRemoveCard(cityData)"
           ></city-weather>
@@ -45,6 +46,7 @@ import type {
   CurrentWeatherInput,
   CityCurrentWeatherJSON,
   Weather,
+  TemperatureScale,
 } from '../interfaces/clients/open_weather_map';
 import {
   ADD_CITY_WEATHER,
@@ -61,6 +63,8 @@ import {
 } from '@/interfaces/store/weather';
 import { CityWeatherData } from '@/interfaces/city_weather';
 import type GeocodeEarthApiClient from '@/clients/geocode_earth';
+import { GET_WEATHER_OPTIONS } from '@/store/settings';
+import { WeatherOptions } from '@/interfaces/store/settings';
 
 @Component({
   components: {
@@ -74,6 +78,7 @@ export default class CityList extends Vue {
   @Prop({ required: true }) geocodeEarthApiClient!: GeocodeEarthApiClient;
 
   @Getter(GET_CITIES_WEATHER) citiesWeather!: Array<Weather>;
+  @Getter(GET_WEATHER_OPTIONS) weatherOptions!: WeatherOptions;
 
   @Action(ADD_CITY_WEATHER) addCityWeather!: AddCityWeather;
   @Action(REMOVE_CITY_WEATHER) removeCityWeather!: RemoveCityWeather;
@@ -115,6 +120,10 @@ export default class CityList extends Vue {
         console.log(e);
       }
     });
+  }
+
+  get temperatureScale(): TemperatureScale {
+    return this.weatherOptions.scale;
   }
 
   handleRemoveCard(card: CityWeatherData) {
