@@ -103,23 +103,27 @@ export default class CityList extends Vue {
       })
     );
 
-    addedCities.forEach(async (cityData: CityWeatherData) => {
-      try {
-        const { city, country } = await cityData;
-
-        const weatherData = await this
-          .openWeatherMapApiClient
-          .fetchCurrentWeather({ city, country });
-
-        const weather = WeatherDataProcessor.getWeatherData(
-          weatherData.jsonBody as CityCurrentWeatherJSON
-        );
-
-        this.updateCityWeather({...cityData, weather, loading: false });
-      } catch(e) {
-        console.log(e);
-      }
+    addedCities.forEach(cityWeather => {
+      this.updateCityWeatherData(cityWeather);
     });
+  }
+
+  async updateCityWeatherData(cityWeather: CityWeatherData) {
+    try {
+      const { city, country } = cityWeather;
+
+      const weatherData = await this
+        .openWeatherMapApiClient
+        .fetchCurrentWeather({ city, country });
+
+      const weather = WeatherDataProcessor.getWeatherData(
+        weatherData.jsonBody as CityCurrentWeatherJSON
+      );
+
+      this.updateCityWeather({...cityWeather, weather, loading: false });
+    } catch(e) {
+      console.log(e);
+    }
   }
 
   get temperatureScale(): TemperatureScale {
