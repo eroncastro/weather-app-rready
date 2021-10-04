@@ -8,7 +8,8 @@
         <v-col
           v-for="(cityData, i) in citiesWeather"
           :key="i"
-          cols="4"
+          sm="16"
+          md="4"
         >
           <city-weather
             :datetime="currentTime"
