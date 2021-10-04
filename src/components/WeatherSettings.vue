@@ -9,39 +9,37 @@
           @change="scale => updateWeatherOptions({ scale })"
           :multiple="false"
         >
-          <v-radio-group>
-            <v-list-item>
-              <template v-slot:default="{ }">
-                <v-list-item-action>
-                  <v-radio
-                    :input-value="weatherOptions.scale === 0"
-                    color="primary"
-                  >
-                  </v-radio>
-                </v-list-item-action>
+          <v-list-item>
+            <template v-slot:default="{ }">
+              <v-list-item-action>
+                <v-checkbox
+                  :input-value="weatherOptions.scale === 0"
+                  color="primary"
+                >
+                </v-checkbox>
+              </v-list-item-action>
 
-                <v-list-item-content>
-                  <v-list-item-title>Celsius</v-list-item-title>
-                </v-list-item-content>
-              </template>
-            </v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>Celsius</v-list-item-title>
+              </v-list-item-content>
+            </template>
+          </v-list-item>
 
-            <v-list-item>
-              <template v-slot:default="{ }">
-                <v-list-item-action>
-                  <v-radio
-                    :input-value="weatherOptions.scale === 1"
-                    color="primary"
-                  >
-                  </v-radio>
-                </v-list-item-action>
+          <v-list-item>
+            <template v-slot:default="{ }">
+              <v-list-item-action>
+                <v-checkbox
+                  :input-value="weatherOptions.scale === 1"
+                  color="primary"
+                >
+                </v-checkbox>
+              </v-list-item-action>
 
-                <v-list-item-content>
-                  <v-list-item-title>Farenheit</v-list-item-title>
-                </v-list-item-content>
-              </template>
-            </v-list-item>
-          </v-radio-group>
+              <v-list-item-content>
+                <v-list-item-title>Farenheit</v-list-item-title>
+              </v-list-item-content>
+            </template>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
 
