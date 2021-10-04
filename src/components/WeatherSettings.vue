@@ -5,8 +5,8 @@
         <v-subheader>Temperature Scale</v-subheader>
 
         <v-list-item-group
-          :input-value="scale"
-          @change="scale => updateSettings({ scale })"
+          :input-value="weatherOptions.scale"
+          @change="scale => updateWeatherOptions({ scale })"
           :multiple="false"
         >
           <v-radio-group>
@@ -14,7 +14,7 @@
               <template v-slot:default="{ }">
                 <v-list-item-action>
                   <v-radio
-                    :input-value="scale === 0"
+                    :input-value="weatherOptions.scale === 0"
                     color="primary"
                   >
                   </v-radio>
@@ -30,7 +30,7 @@
               <template v-slot:default="{ }">
                 <v-list-item-action>
                   <v-radio
-                    :input-value="scale === 1"
+                    :input-value="weatherOptions.scale === 1"
                     color="primary"
                   >
                   </v-radio>
@@ -53,8 +53,8 @@
         <v-list-item>
           <v-list-item-action>
             <v-checkbox
-              :input-value="minTemperature"
-              @change="minTemperature => updateSettings({ minTemperature })"
+              :input-value="weatherOptions.minTemperature"
+              @change="minTemperature => updateWeatherOptions({ minTemperature })"
             >
             </v-checkbox>
           </v-list-item-action>
@@ -67,8 +67,8 @@
         <v-list-item>
           <v-list-item-action>
             <v-checkbox
-              :input-value="maxTemperature"
-              @change="maxTemperature => updateSettings({ maxTemperature })"
+              :input-value="weatherOptions.maxTemperature"
+              @change="maxTemperature => updateWeatherOptions({ maxTemperature })"
             >
             </v-checkbox>
           </v-list-item-action>
@@ -81,8 +81,8 @@
         <v-list-item>
           <v-list-item-action>
             <v-checkbox
-              :input-value="sunrise"
-              @change="sunrise => updateSettings({ sunrise })"
+              :input-value="weatherOptions.sunrise"
+              @change="sunrise => updateWeatherOptions({ sunrise })"
             >
             </v-checkbox>
           </v-list-item-action>
@@ -95,8 +95,8 @@
         <v-list-item>
           <v-list-item-action>
             <v-checkbox
-              :input-value="sunset"
-              @change="sunset => updateSettings({ sunset })"
+              :input-value="weatherOptions.sunset"
+              @change="sunset => updateWeatherOptions({ sunset })"
             >
             </v-checkbox>
           </v-list-item-action>
@@ -109,8 +109,8 @@
         <v-list-item>
           <v-list-item-action>
             <v-checkbox
-              :input-value="wind"
-              @change="wind => updateSettings({ wind })"
+              :input-value="weatherOptions.wind"
+              @change="wind => updateWeatherOptions({ wind })"
             >
             </v-checkbox>
           </v-list-item-action>
@@ -125,38 +125,26 @@
 </template>
 
 <script lang="ts">
-import type {
-  TemperatureScale
-} from '@/interfaces/clients/open_weather_map';
 import {
-  GET_MAX_TEMPERATURE,
-  GET_MIN_TEMPERATURE,
-  GET_SUNRISE,
-  GET_SUNSET,
-  GET_TEMPERATURE_SCALE,
-  GET_WIND,
+  UpdateWeatherOptions,
+  WeatherOptions
+} from '@/interfaces/store/settings';
+import {
+  GET_WEATHER_OPTIONS,
+  UPDATE_WEATHER_OPTIONS,
 } from '@/store/settings';
 import { Component, Vue } from 'vue-property-decorator';
 import {
+  Action,
   Getter,
-  // Action,
 } from 'vuex-class';
 
 @Component
 export default class Settings extends Vue {
 
-  @Getter(GET_TEMPERATURE_SCALE) scale!: TemperatureScale;
-  @Getter(GET_MIN_TEMPERATURE) minTemperature!: boolean;
-  @Getter(GET_MAX_TEMPERATURE) maxTemperature!: boolean;
-  @Getter(GET_WIND) wind!: boolean;
-  @Getter(GET_SUNRISE) sunrise!: boolean;
-  @Getter(GET_SUNSET) sunset!: boolean;
+  @Getter(GET_WEATHER_OPTIONS) weatherOptions!: WeatherOptions;
 
+  @Action(UPDATE_WEATHER_OPTIONS) updateWeatherOptions!: UpdateWeatherOptions;
 
-
-  mounted() {
-    console.log(this.scale);
-    console.log(this.minTemperature);
-  }
 }
 </script>
