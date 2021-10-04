@@ -10,7 +10,7 @@
       >
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title class="white--text">Weather App</v-toolbar-title>
+      <v-toolbar-title class="white--text">{{ routeTitle}}</v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -35,24 +35,27 @@
         dense
         nav
       >
-        <router-link
-          v-for="item in drawerItems"
-          :key="item.title"
-          :to="item.route"
-          style="text-decoration: none;"
+        <v-list-item-group
+          active-class="highlighted"
+          :value="selected"
         >
-          <v-list-item
-            link
+          <router-link
+            v-for="(item, i) in drawerItems"
+            :key="i"
+            :to="item.route"
+            style="text-decoration: none;"
           >
-            <v-list-item-icon>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>{{ item.icon }}</v-icon>
+              </v-list-item-icon>
 
-            <v-list-item-content>
-              <v-list-item-title>{{ item.title }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title"></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </router-link>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
 
@@ -67,6 +70,10 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class App extends Vue {
 
   showDrawer = false;
+  routeTitleMap = new Map([
+    ['/', 'Weather App'],
+    ['/settings', 'Settings'],
+  ]);
   drawerItems = [
     {
       title: 'Home',
@@ -79,6 +86,15 @@ export default class App extends Vue {
       route: '/settings'
     },
   ];
+  selectedIndex = null;
+
+  get routeTitle(): string {
+    return this.routeTitleMap.get(this.$route.path) ?? '';
+  }
+
+  get selected(): number {
+    return this.drawerItems.findIndex(item => item.route === this.$route.path);
+  }
 
 }
 
