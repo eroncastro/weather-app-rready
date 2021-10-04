@@ -10,7 +10,7 @@
       >
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title class="white--text">{{ routeTitle}}</v-toolbar-title>
+      <v-toolbar-title class="white--text">{{ routeTitle }}</v-toolbar-title>
     </v-app-bar>
 
     <v-navigation-drawer
