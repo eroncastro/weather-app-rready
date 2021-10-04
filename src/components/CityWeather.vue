@@ -1,7 +1,6 @@
 <template>
   <v-card
     class="mx-auto weather-card"
-    max-width="400"
     outlined
     :loading="loading"
   >
